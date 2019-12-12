@@ -15,7 +15,10 @@ public class ChatController {
 	@SendTo("/chat/message")
 	public Message receiveMessage( Message message ) {
 		message.setDate(new Date().getTime());
-		message.setMessage("receive: " + message.getMessage());
+		
+		if(message.getType().equals("CONNECTED")) {
+			message.setMessage(message.getUsername() + " has been connected.");
+		}
 		
 		return message;
 	}

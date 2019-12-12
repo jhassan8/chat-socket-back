@@ -8,6 +8,8 @@ public class Message implements Serializable {
 
 	private String message;
 	private Long date;
+	private String username;
+	private String type;
 
 	public String getMessage() {
 		return message;
@@ -23,6 +25,22 @@ public class Message implements Serializable {
 
 	public void setDate(Long date) {
 		this.date = date;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }
