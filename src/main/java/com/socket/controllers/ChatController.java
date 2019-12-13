@@ -5,6 +5,7 @@ import java.util.Random;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import com.socket.models.documents.Message;
@@ -15,9 +16,11 @@ public class ChatController {
 
 	private String[] colors = { "red", "green", "blue", "yellow", "orange", "violet" };
 	private ChatService chatService;
+	private SimpMessagingTemplate simpMessagingTemplate;
 
-	public ChatController(ChatService chatService) {
+	public ChatController(ChatService chatService, SimpMessagingTemplate simpMessagingTemplate) {
 		this.chatService = chatService;
+		this.simpMessagingTemplate = simpMessagingTemplate;
 	}
 
 	@MessageMapping("/message")
@@ -39,6 +42,11 @@ public class ChatController {
 	@SendTo("/chat/writing")
 	public String writing(String username) {
 		return username + " is writing..";
+	}
+
+	@MessageMapping("/history")
+	public void history(String clientId) {
+		this.simpMessagingTemplate.convertAndSend("/chat/history/" + clientId, this.chatService.getLastTenMessages());
 	}
 
 }
